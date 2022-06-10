@@ -1,37 +1,30 @@
 import { lazy, LazyExoticComponent } from "react";
+import NoLazy from "../01-lazyload/pages/NoLazy";
 
-const LazyPage1 = lazy(
+const LazyLayout = lazy(
   () =>
-    import(/* webpackChunkName: "LazyPage1" */ "../01-lazyload/pages/LazyPage1")
-);
-const LazyPage2 = lazy(
-  () =>
-    import(/* webpackChunkName: "LazyPage2" */ "../01-lazyload/pages/LazyPage2")
-);
-const LazyPage3 = lazy(
-  () =>
-    import(/* webpackChunkName: "LazyPage3" */ "../01-lazyload/pages/LazyPage3")
+    import(
+      /* webpackChunkName: "LazyLayout" */ "../01-lazyload/layout/LazyLayout"
+    )
 );
 
 type JSXComponent = () => JSX.Element;
 type RouteNameMap = {
-  lazy1: {
+  lazyload: {
+    isNested: true;
     type: "lazy";
-    name: "Lazy 1";
+    name: "LazyLayout";
   };
-  lazy2: {
-    type: "lazy";
-    name: "Lazy 2";
-  };
-  lazy3: {
-    type: "lazy";
-    name: "Lazy 3";
+  "no-lazy": {
+    isNested: false;
+    type: "no-lazy";
+    name: "No Lazy";
   };
 };
 type Route = {
   [Key in keyof RouteNameMap]: {
     to: `/${Key}`;
-    path: Key;
+    path: `/${Key}/${RouteNameMap[Key]["isNested"] extends true ? "*" : ""}`;
     Component: RouteNameMap[Key]["type"] extends "lazy"
       ? LazyExoticComponent<JSXComponent>
       : JSXComponent;
@@ -41,22 +34,16 @@ type Route = {
 
 const routes: Route[] = [
   {
-    to: "/lazy1",
-    path: "lazy1",
-    Component: LazyPage1,
-    name: "Lazy 1",
+    to: "/lazyload",
+    path: "/lazyload/*",
+    Component: LazyLayout,
+    name: "LazyLayout",
   },
   {
-    to: "/lazy2",
-    path: "lazy2",
-    Component: LazyPage2,
-    name: "Lazy 2",
-  },
-  {
-    to: "/lazy3",
-    path: "lazy3",
-    Component: LazyPage3,
-    name: "Lazy 3",
+    to: "/no-lazy",
+    path: "/no-lazy/",
+    Component: NoLazy,
+    name: "No Lazy",
   },
 ];
 
