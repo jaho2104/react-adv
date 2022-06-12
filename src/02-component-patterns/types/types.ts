@@ -1,18 +1,29 @@
-import { FC, PropsWithChildren } from "react";
+import { CSSProperties, FC, PropsWithChildren } from "react";
+
+type SharedProps<OtherProps = Record<string, unknown>> = {
+  className?: string;
+  style?: CSSProperties;
+} & OtherProps;
 
 export type Product = {
   id: string;
+  img?: string;
   title: string;
-  img?: string;
 };
 
-export type ProductImageProps = {
-  img?: string;
+export type ProductButtonsProps = SharedProps;
+
+export type ProductCardChildren = {
+  Buttons: FC<ProductButtonsProps>;
+  Image: FC<ProductImageProps>;
+  Title: FC<ProductTitleProps>;
 };
 
-export type ProductTitleProps = {
-  title?: string;
-};
+export type ProductCardProps = PropsWithChildren<
+  SharedProps<{
+    product: Product;
+  }>
+>;
 
 export type ProductContextProps = {
   count: number;
@@ -20,12 +31,10 @@ export type ProductContextProps = {
   increaseBy: (amount: number) => void;
 };
 
-export type ProductCardProps = PropsWithChildren<{
-  product: Product;
+export type ProductImageProps = SharedProps<{
+  img?: string;
 }>;
 
-export type ProductCardChildren = {
-  Image: FC<ProductImageProps>;
-  Title: FC<ProductTitleProps>;
-  Buttons: FC;
-};
+export type ProductTitleProps = SharedProps<{
+  title?: string;
+}>;
