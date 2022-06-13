@@ -1,7 +1,7 @@
-import { default as ProductCardBase } from "./ProductCard";
 import ProductButtons from "./ProductButtons";
 import ProductImage from "./ProductImage";
 import ProductTitle from "./ProductTitle";
+import { default as ProductCardBase } from "./ProductCard";
 
 export { default as ProductButtons } from "./ProductButtons";
 export { default as ProductImage } from "./ProductImage";

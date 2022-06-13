@@ -1,9 +1,16 @@
-import { CSSProperties, FC, PropsWithChildren } from "react";
-
-type SharedProps<OtherProps = Record<string, unknown>> = {
+export type SharedProps<AdditionalProps = Record<string, unknown>> = {
   className?: string;
-  style?: CSSProperties;
-} & OtherProps;
+  style?: React.CSSProperties;
+} & AdditionalProps;
+
+export type ControlProps<AdditionalProps = Record<string, unknown>> = (
+  | {
+      value: number;
+      onCountChange: (args: OnCountChangeArgs) => void;
+    }
+  | { value?: never; onCountChange?: never }
+) &
+  AdditionalProps;
 
 export type Product = {
   id: string;
@@ -11,30 +18,13 @@ export type Product = {
   title: string;
 };
 
-export type ProductButtonsProps = SharedProps;
+type ProductInCart = Product & { count: number };
 
-export type ProductCardChildren = {
-  Buttons: FC<ProductButtonsProps>;
-  Image: FC<ProductImageProps>;
-  Title: FC<ProductTitleProps>;
+export type ShoppingCart = {
+  [key: string]: ProductInCart;
 };
 
-export type ProductCardProps = PropsWithChildren<
-  SharedProps<{
-    product: Product;
-  }>
->;
-
-export type ProductContextProps = {
+export type OnCountChangeArgs = {
   count: number;
   product: Product;
-  increaseBy: (amount: number) => void;
 };
-
-export type ProductImageProps = SharedProps<{
-  img?: string;
-}>;
-
-export type ProductTitleProps = SharedProps<{
-  title?: string;
-}>;

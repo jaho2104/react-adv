@@ -1,20 +1,35 @@
-import { createContext, FC } from "react";
+import { createContext, FC, PropsWithChildren } from "react";
 import useProduct from "../hooks/useProduct";
-import { ProductCardProps, ProductContextProps } from "../types";
 
+import { ControlProps, Product, SharedProps } from "../types";
 import styles from "../styles/styles.module.css";
 
-export const ProductContext = createContext({} as ProductContextProps);
+type ProductContextProps = {
+  count: number;
+  product: Product;
+  increaseBy: (amount: number) => void;
+};
 
+type ProductCardProps = PropsWithChildren<
+  ControlProps<
+    SharedProps<{
+      product: Product;
+    }>
+  >
+>;
+
+export const ProductContext = createContext({} as ProductContextProps);
 const { Provider: ProductCardProvider } = ProductContext;
 
 const ProductCard: FC<ProductCardProps> = ({
   children,
-  product,
   className,
+  product,
   style,
+  value,
+  onCountChange,
 }) => {
-  const { count, increaseBy } = useProduct();
+  const { count, increaseBy } = useProduct({ product, value, onCountChange });
 
   return (
     <ProductCardProvider value={{ count, product, increaseBy }}>

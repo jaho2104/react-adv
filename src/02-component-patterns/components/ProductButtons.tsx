@@ -1,8 +1,10 @@
 import { FC, useContext } from "react";
 import { ProductContext } from "./ProductCard";
 
+import { SharedProps } from "../types";
 import styles from "../styles/styles.module.css";
-import { ProductButtonsProps } from "../types";
+
+type ProductButtonsProps = SharedProps;
 
 const ProductButtons: FC<ProductButtonsProps> = ({ className, style }) => {
   const { count, increaseBy } = useContext(ProductContext);

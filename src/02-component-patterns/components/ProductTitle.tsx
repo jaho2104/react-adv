@@ -1,8 +1,12 @@
 import { FC, useContext } from "react";
-import { ProductTitleProps } from "../types";
 import { ProductContext } from "./ProductCard";
 
+import { SharedProps } from "../types";
 import styles from "../styles/styles.module.css";
+
+type ProductTitleProps = SharedProps<{
+  title?: string;
+}>;
 
 const ProductTitle: FC<ProductTitleProps> = ({ title, className, style }) => {
   const {

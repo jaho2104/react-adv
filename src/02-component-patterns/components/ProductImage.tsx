@@ -1,9 +1,13 @@
 import { FC, useContext } from "react";
-import { ProductImageProps } from "../types";
 import { ProductContext } from "./ProductCard";
 
+import { SharedProps } from "../types";
 import styles from "../styles/styles.module.css";
 import noImage from "../assets/no-image.jpeg";
+
+type ProductImageProps = SharedProps<{
+  img?: string;
+}>;
 
 const ProductImage: FC<ProductImageProps> = ({ img, className, style }) => {
   const {
